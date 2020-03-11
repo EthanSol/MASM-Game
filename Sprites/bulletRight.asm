@@ -1,0 +1,119 @@
+
+      .586
+      .MODEL FLAT,STDCALL
+      .STACK 4096
+      option casemap :none  ; case sensitive
+
+include ./Include/stars.inc
+include ./Include/lines.inc
+include ./Include/trig.inc
+include ./Include/blit.inc
+include ./Include/game.inc
+
+;; Has keycodes
+include ./Include/keys.inc
+
+.DATA
+bulletRight EECS205BITMAP <40, 40, 255,, offset bulletRight + sizeof bulletRight>
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0dbh,0dbh,0dbh,0dbh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,000h,000h,000h,000h,000h,024h,0ffh,049h,000h,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,049h,092h,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,092h,000h,024h,024h,024h,024h
+	BYTE 049h,024h,024h,000h,024h,024h,024h,024h,024h,024h,024h,024h,024h,024h,024h,024h
+	BYTE 024h,024h,024h,000h,000h,06dh,0dbh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,06dh,024h,024h,024h,024h,049h,049h,000h,049h,049h,049h,049h,049h,06dh
+	BYTE 06dh,06dh,06dh,06dh,06dh,06dh,06dh,06dh,06dh,049h,049h,024h,024h,024h,024h,049h
+	BYTE 0dbh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,092h,049h,06dh,06dh,06dh,092h
+	BYTE 092h,024h,0b6h,0dbh,0dbh,0dbh,0dbh,0dbh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0b6h,049h,024h,024h,024h,092h,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,06dh,06dh,06dh,092h,06dh,0b6h,0b6h,06dh,0b6h,0b6h,0b6h,0b6h,0b6h,0b6h
+	BYTE 0dbh,0dbh,0dbh,0dbh,0dbh,0dbh,0ffh,0ffh,0ffh,0dbh,0ffh,092h,000h,0b6h,092h,049h
+	BYTE 024h,024h,06dh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,06dh,049h,049h,06dh,049h,092h
+	BYTE 092h,049h,049h,06dh,06dh,049h,06dh,049h,06dh,06dh,06dh,06dh,06dh,06dh,06dh,06dh
+	BYTE 06dh,06dh,06dh,024h,024h,06dh,06dh,092h,06dh,049h,024h,092h,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0dbh,024h,024h,024h,024h,024h,049h,049h,024h,000h,024h,024h,024h,024h,024h
+	BYTE 024h,024h,024h,024h,024h,024h,024h,024h,024h,024h,024h,000h,06dh,0ffh,0b6h,024h
+	BYTE 06dh,06dh,049h,024h,0dbh,0ffh,0ffh,0ffh,0ffh,0dbh,024h,000h,000h,024h,000h,024h
+	BYTE 024h,000h,024h,024h,000h,024h,024h,000h,000h,000h,000h,000h,024h,024h,000h,000h
+	BYTE 024h,024h,024h,000h,049h,0ffh,0ffh,092h,000h,049h,06dh,049h,049h,0ffh,0ffh,0ffh
+	BYTE 0ffh,0b6h,000h,000h,000h,000h,000h,024h,024h,000h,000h,000h,000h,000h,000h,000h
+	BYTE 024h,049h,049h,000h,000h,000h,000h,000h,000h,000h,000h,000h,024h,0ffh,0ffh,0ffh
+	BYTE 024h,049h,024h,049h,024h,0b6h,0ffh,0ffh,0ffh,0b6h,000h,000h,000h,000h,000h,024h
+	BYTE 000h,000h,000h,000h,000h,000h,000h,024h,049h,024h,06dh,0dbh,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,000h,092h,0ffh,0ffh,0dbh,0dbh,049h,024h,024h,092h,0ffh,0ffh
+	BYTE 0ffh,0b6h,000h,000h,000h,000h,000h,024h,024h,000h,000h,000h,000h,000h,024h,049h
+	BYTE 000h,06dh,024h,06dh,092h,000h,000h,000h,000h,000h,000h,000h,000h,024h,06dh,0b6h
+	BYTE 0b6h,049h,000h,000h,000h,06dh,0ffh,0ffh,0ffh,0b6h,000h,000h,000h,000h,000h,024h
+	BYTE 024h,000h,000h,000h,000h,000h,049h,000h,0b6h,0ffh,0dbh,000h,06dh,000h,000h,000h
+	BYTE 024h,000h,000h,000h,000h,000h,000h,020h,000h,000h,000h,000h,000h,049h,0ffh,0ffh
+	BYTE 0ffh,0b6h,000h,000h,000h,000h,000h,024h,024h,000h,000h,000h,000h,000h,024h,06dh
+	BYTE 0dbh,0ffh,0dbh,000h,024h,000h,0b6h,0ffh,0ffh,0ffh,049h,024h,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,000h,06dh,0ffh,0ffh,0ffh,0b6h,000h,000h,000h,000h,000h,024h
+	BYTE 000h,000h,000h,000h,000h,000h,000h,092h,0b6h,0dbh,0bbh,06dh,024h,04dh,0dbh,0dbh
+	BYTE 0dbh,0ffh,0ffh,0ffh,06dh,000h,000h,000h,000h,000h,000h,000h,024h,0dbh,0ffh,0ffh
+	BYTE 0ffh,0b6h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,0b6h
+	BYTE 092h,092h,0b6h,0dbh,0b6h,092h,0b6h,0bbh,0dbh,0ffh,0ffh,0ffh,049h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,049h,0ffh,0ffh,0ffh,0ffh,0dbh,000h,000h,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,000h,000h,000h,024h,0dbh,092h,092h,092h,092h,092h,0b6h,0b6h
+	BYTE 0dbh,0dbh,0ffh,0ffh,049h,000h,000h,000h,000h,000h,000h,000h,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0dbh,024h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h
+	BYTE 004h,096h,0b6h,0b6h,092h,092h,092h,0b6h,0b6h,0dbh,0dbh,0dbh,0dbh,000h,000h,000h
+	BYTE 000h,000h,000h,0b6h,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,024h,000h,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,049h,06eh,0b6h,092h,092h,092h
+	BYTE 0b6h,0b6h,0b6h,0dbh,024h,000h,000h,000h,000h,000h,092h,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,049h,000h,000h,000h,000h,000h,024h,000h,000h,000h,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,024h,0b6h,0b7h,096h,092h,092h,092h,0dbh,024h,000h,000h,000h
+	BYTE 000h,092h,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,049h,000h,000h,000h,000h,000h
+	BYTE 024h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,049h,0b6h
+	BYTE 0bbh,0b6h,092h,049h,000h,000h,000h,049h,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,092h,000h,024h,000h,000h,000h,024h,024h,024h,000h,000h,000h,000h,000h
+	BYTE 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,024h,049h,0dbh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,024h,024h,024h,024h,024h
+	BYTE 049h,0ffh,092h,024h,024h,024h,024h,024h,024h,024h,024h,024h,049h,049h,049h,049h
+	BYTE 049h,049h,06dh,092h,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0dbh,0dbh,0dbh,0dbh,0dbh,0dbh,0ffh,0dbh,0dbh,0dbh,0dbh,0dbh,0dbh
+	BYTE 0dbh,0dbh,0dbh,0dbh,0dbh,0dbh,0dbh,0dbh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+	BYTE 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh
+
+END

@@ -1,0 +1,56 @@
+Controls:
+
+    WS/UpDwn -
+        Moves the player's vehicle forward and backward
+    Left/Right Click -
+        Spins (steers) the secondary sprite using RotateBlit.
+        For some reason this tends to work better with a mouse
+        than on a trackpad. Sometimes the mouse cursor and 
+        buttons get "stuck" on screen with the trackpad. When
+        using a mouse I have never encountered these problems
+    P/Space - Pause/Unpause the game
+=============================================================
+Game Play:
+
+    Drive the car around the field to collect coins. Collecting
+    coins will increase your score and progress the level (difficulty)
+    of the game until the maximum level (5). The level of the game
+    also acts as a score multiplier. A coin at level 1 is worth 1000
+    points while a coin at level 5 is worth 5000 points. There is also
+    a special coin that flies around the screen faster than the player
+    can move. If the player manages to collect this coin, they will
+    get double the points of a regular coin, and also gain a speed boost
+    until the next regular coin is collected.
+
+    If the player collides with a bullet bill, the player dies and the
+    game is over.
+===============================================================
+Game Features:
+    
+    Screens -
+        There are four game states: Start, Play, Pause, Game over
+        Each of these states has a different display, and different
+        music. Any non-play screen has a number of buttons. These
+        buttons get highlighted when the mouse is hovering over them.
+
+    Multiple in-flight projectiles -
+        The powerup coin and all the bullet bills fly around the
+        screen randomly
+    
+    PowerUps - 
+        The power up coin gives the player extra points and a
+        temporarily increased speed.
+
+    Complex Scoring System - 
+        There are two different types of coins that give different
+        score values. The level at which the player is playing is
+        also a score multiplier.
+
+    Sound/Music - 
+        There is a menu sound and a game play sound. These get 
+        played at the appropriate times. There is also a special sound
+        played when the player's powerup is active.
+    
+    Special visual effect -
+        The player's vehicle gets animated in a strobe pattern when the
+        power up is activated.
