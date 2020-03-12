@@ -811,12 +811,13 @@ CheckCoinCollision PROC uses edx ebx esi edi ecx
             cmp edx, 0 ;check if 3 coins have been picked up (3 per level)
             jne DONE
             inc LEVEL
+            mov COIN_CNT, 0
             mov PowerCoinOn, 1
             invoke InitializePowerCoin
             cmp LEVEL, 5 ;MAX LEVEL
             jg DONE;Dont add bullets if the level is above 5
             invoke InitializeNewBullets
-            mov COIN_CNT, 0
+            
 
       DONE:
             ret
